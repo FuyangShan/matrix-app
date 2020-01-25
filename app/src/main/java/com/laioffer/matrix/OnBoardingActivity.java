@@ -16,13 +16,15 @@ public class OnBoardingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_boarding);
 
+        //find components
         viewPager = findViewById(R.id.viewpager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
+        //create adapter for providing fragments to the viewPager
         OnBoardingPageAdapter onBoardingPageAdapter = new OnBoardingPageAdapter(getSupportFragmentManager());
-
         viewPager.setAdapter(onBoardingPageAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        //cannect tablayout to the viewpager
         tabLayout.setupWithViewPager(viewPager);
     }
 }
