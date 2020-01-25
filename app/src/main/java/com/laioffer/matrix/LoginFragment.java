@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +37,10 @@ public class LoginFragment extends OnBoardingBaseFragment {
         //let super class to inflate the view
         View view = super.onCreateView(inflater, container, savedInstanceState);
         submitButton.setText(R.string.login);
+
+        // test database connection
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("message");
+        myRef.setValue("Hello, World!");
 
         return view;
     }

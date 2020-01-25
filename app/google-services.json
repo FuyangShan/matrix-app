@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "605239773950-oe99vrb76elo956ga26ji6384pijl01t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.laioffer.matrix",
+            "certificate_hash": "6674d42c1c6c4f9ebf1db2274eec28ff2165c5df"
+          }
+        },
+        {
           "client_id": "605239773950-57d4u98oqkem9b9mgm1p5kddrgov5543.apps.googleusercontent.com",
           "client_type": 3
         }
