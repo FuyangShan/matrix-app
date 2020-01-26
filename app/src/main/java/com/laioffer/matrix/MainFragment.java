@@ -18,14 +18,20 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.annotations.Nullable;
 
 
 public class MainFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private View view;
+
+    //add google map service and location
     private GoogleMap googleMap;
     private LocationTracker locationTracker;
+
+    //Action Button
+    private FloatingActionButton fabReport;
 
     public static MainFragment newInstance() {
 
@@ -52,6 +58,16 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mapView = (MapView) view.findViewById(R.id.event_map_view);
+
+        //fab button
+        fabReport = (FloatingActionButton)view.findViewById(R.id.fab);
+        fabReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //show dialog
+            }
+        });
+
         if (mapView != null) {
             mapView.onCreate(null);
             mapView.onResume();// needed to get the map to display immediately
