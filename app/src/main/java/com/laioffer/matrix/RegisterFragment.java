@@ -1,13 +1,13 @@
 package com.laioffer.matrix;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +29,7 @@ public class RegisterFragment extends OnBoardingBaseFragment {
         return fragment;
     }
 
+
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -37,9 +38,9 @@ public class RegisterFragment extends OnBoardingBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        // Inflate the layout for this fragment
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        submitButton.setText(R.string.register);
+        submitButton.setText(getString(R.string.register));
 
         // register the account to firebase
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -50,38 +51,44 @@ public class RegisterFragment extends OnBoardingBaseFragment {
 
                 database.child("user").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild(username)) {
-                            Toast.makeText(getContext(), "username is already registered, please change one",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (!username.isEmpty() && !password.isEmpty()) {
+                            Toast.makeText(getActivity(), "username is already registered, please change one", Toast.LENGTH_SHORT).show();
+                        } else if (!username.equals("") && !password.equals("")) {
+                            // put username as key to set value
                             final User user = new User();
                             user.setUser_account(username);
                             user.setUser_password(Utils.md5Encryption(password));
                             user.setUser_timestamp(System.currentTimeMillis());
                             database.child("user").child(user.getUser_account()).setValue(user);
-                            Toast.makeText(getContext(), "user has successfully registered",
-                                    Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Successfully registered", Toast.LENGTH_SHORT).show();
+                            goToLogin();
                         }
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onCancelled(DatabaseError databaseError) {
 
                     }
                 });
             }
         });
 
-
         return view;
-
     }
+
+
+    private void goToLogin() {
+        Activity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            ((OnBoardingActivity) activity).setCurrentPage(0);
+        }
+    }
+
 
     @Override
     protected int getLayout() {
         return R.layout.fragment_register;
     }
-
 }
 

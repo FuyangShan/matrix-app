@@ -1,7 +1,9 @@
 package com.laioffer.matrix;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -9,22 +11,26 @@ import com.google.android.material.tabs.TabLayout;
 
 public class OnBoardingActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    private ViewPager viewpage;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_boarding);
 
-        //find components
-        viewPager = findViewById(R.id.viewpager);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-
-        //create adapter for providing fragments to the viewPager
+        // setup viewpager and tablayout
+        viewpage = findViewById(R.id.viewpager);
         OnBoardingPageAdapter onBoardingPageAdapter = new OnBoardingPageAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(onBoardingPageAdapter);
+        viewpage.setAdapter(onBoardingPageAdapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewpage);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setSelectedTabIndicatorColor(getColor(R.color.colorAccent));
+    }
 
-        //cannect tablayout to the viewpager
-        tabLayout.setupWithViewPager(viewPager);
+    // switch viewpage to #page
+    public void setCurrentPage(int page) {
+        viewpage.setCurrentItem(page);
     }
 }
