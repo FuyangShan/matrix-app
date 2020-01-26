@@ -25,6 +25,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private View view;
     private GoogleMap googleMap;
+    private LocationTracker locationTracker;
 
     public static MainFragment newInstance() {
 
@@ -86,35 +87,33 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
 
-        //set up the style of the map
         this.googleMap = googleMap;
         this.googleMap.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
                         getActivity(), R.raw.style_json));
 
-        double latitude = 30.592995;
-        double longitude = 114.305390;
+        locationTracker = new LocationTracker(getActivity());
+        locationTracker.getLocation();
 
-        // Create marker on google map
-        MarkerOptions marker = new MarkerOptions().position(
-                new LatLng(latitude, longitude)).title("天佑武汉！");
+        LatLng latLng = new LatLng(locationTracker.getLatitude(), locationTracker.getLongitude());
 
-
-        // Change marker Icon on google map
-        marker.icon(BitmapDescriptorFactory
-                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
-
-        // Add marker to google map
-        googleMap.addMarker(marker);
-
-
-        // Set up camera configuration, set camera to lat and lng, and set Zoom to 12
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(latitude, longitude)).zoom(12).build();
+                .target(latLng)      // Sets the center of the map to Mountain View
+                .zoom(16)// Sets the zoom
+                .bearing(90)           // Sets the orientation of the camera to east
+                .tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                .build();                   // Creates a CameraPosition from the builder
 
-        // Animate the zoom process
-        googleMap.animateCamera(CameraUpdateFactory
-                .newCameraPosition(cameraPosition));
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        MarkerOptions marker = new MarkerOptions().position(latLng).
+                title("You");
+
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.boy));
+
+        // adding marker
+        googleMap.addMarker(marker);
     }
 }
 
