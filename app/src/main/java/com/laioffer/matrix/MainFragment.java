@@ -33,6 +33,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     //Action Button
     private FloatingActionButton fabReport;
 
+    //for the switch
+    private ReportDialog dialog;
+
     public static MainFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -65,6 +68,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 //show dialog
+                showDialog(null, null);
             }
         });
 
@@ -98,6 +102,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         super.onLowMemory();
         mapView.onLowMemory();
     }
+
+    //For the fab button ---> show dialog
+    private void showDialog(String label, String prefillText) {
+        dialog = new ReportDialog(getContext());
+        dialog.show();
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
